@@ -13,6 +13,7 @@ from PySide6.QtCore import (
 )
 
 from model_manager import ModelManager
+from utils import get_ffmpeg_path
 
 
 
@@ -32,23 +33,21 @@ class DownloadWorker(QThread):
         self.model_name = model_name
 
 
-
     def run(self):
 
         try:
 
             manager = ModelManager()
 
-
-            # Téléchargement automatique
-            # géré par faster-whisper
+            # Télécharge le modèle Whisper
             manager.load_model(
                 self.model_name
             )
 
+            # Télécharge FFmpeg si nécessaire
+            get_ffmpeg_path()
 
             self.finished.emit()
-
 
         except Exception as e:
 

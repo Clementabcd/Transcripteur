@@ -2,6 +2,7 @@ import json
 import os
 from pathlib import Path
 import platform
+import imageio_ffmpeg
 
 def format_time(seconds):
 
@@ -362,3 +363,15 @@ def save_config(config):
             indent=4,
             ensure_ascii=False
         )
+
+
+
+def get_ffmpeg_path():
+    """
+    Retourne le chemin du binaire FFmpeg.
+
+    imageio-ffmpeg télécharge automatiquement
+    FFmpeg au premier appel si nécessaire.
+    """
+
+    return imageio_ffmpeg.get_ffmpeg_exe()

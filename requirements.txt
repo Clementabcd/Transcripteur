@@ -1,5 +1,5 @@
-PySide6
+PySide6>=6.8
 faster-whisper
 ctranslate2
-numpy
-torch
+huggingface-hub
+imageio-ffmpeg

@@ -84,3 +84,14 @@
 2026-07-13 23:01:42,457 - INFO - Transcription : /var/folders/0_/qp6mswc97s12bcbzxvv84y300000gn/T/tmpc0118mc_/normalized.wav
 2026-07-13 23:01:42,513 - INFO - Processing audio with duration 01:20.280
 2026-07-13 23:02:23,083 - INFO - Transcription terminée
+2026-07-14 10:22:57,151 - INFO - HTTP Request: GET https://huggingface.co/api/models/Systran/faster-whisper-large-v3/revision/main "HTTP/1.1 200 OK"
+2026-07-14 10:23:33,320 - INFO - Initialisation du moteur
+2026-07-14 10:23:33,322 - INFO - Chargement du modèle : large-v3
+2026-07-14 10:23:33,489 - INFO - HTTP Request: GET https://huggingface.co/api/models/Systran/faster-whisper-large-v3/revision/main "HTTP/1.1 200 OK"
+2026-07-14 10:23:35,625 - INFO - Modèle chargé avec succès
+2026-07-14 10:23:35,625 - INFO - Début traitement : /Users/clementjonghmans/Downloads/2026-07-12 19_13_35.mp3
+2026-07-14 10:23:35,626 - INFO - Normalisation audio
+2026-07-14 10:23:36,569 - INFO - Durée audio : 80s
+2026-07-14 10:23:36,569 - INFO - Transcription : /var/folders/0_/qp6mswc97s12bcbzxvv84y300000gn/T/tmp6fiyj2c4/normalized.wav
+2026-07-14 10:23:36,627 - INFO - Processing audio with duration 01:20.280
+2026-07-14 10:24:16,657 - INFO - Transcription terminée

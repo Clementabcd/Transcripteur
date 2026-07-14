@@ -5,6 +5,8 @@ import tempfile
 from model_manager import ModelManager
 from logger import log_info, log_error
 
+from utils import get_ffmpeg_path
+
 
 class TranscriptionEngine:
 
@@ -144,10 +146,12 @@ class TranscriptionEngine:
             "Normalisation audio"
         )
 
+        def get_ffmpeg():
+            return get_ffmpeg_path()
 
         subprocess.run(
             [
-                "ffmpeg",
+                get_ffmpeg(),
                 "-y",
                 "-i",
                 str(input_file),
