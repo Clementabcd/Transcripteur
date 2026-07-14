@@ -232,6 +232,15 @@ class MainWindow(QWidget):
         self.apply_style()
 
 
+    def closeEvent(self, event):
+
+        from PySide6.QtWidgets import QApplication
+
+        QApplication.quit()
+
+        event.accept()
+
+
 
     def init_ui(self):
 

@@ -1,9 +1,10 @@
-from pathlib import Path
-
 from faster_whisper import WhisperModel
 
-from utils import get_models_dir
-
+from utils import (
+    get_models_dir,
+    load_config,
+    save_config
+)
 
 
 class ModelManager:
@@ -15,52 +16,41 @@ class ModelManager:
 
 
 
-    def model_exists(
-        self,
-        model_name
-    ):
+    def model_exists(self, model_name):
 
-        model_path = (
-            self.models_dir /
-            model_name
-        )
+        """
+        Vérifie si le modèle a déjà été installé.
+        Le modèle est géré par le cache Hugging Face,
+        donc on utilise la configuration EchoScript.
+        """
 
-        return model_path.exists()
+        config = load_config()
 
-
-
-    def load_model(
-        self,
-        model_name
-    ):
-
-
-        model_path = (
-            self.models_dir /
-            model_name
+        return config.get(
+            "model_installed",
+            False
         )
 
 
-        if model_path.exists():
 
-            print(
-                f"Chargement du modèle local : {model_name}"
-            )
+    def mark_model_installed(self):
+
+        """
+        Enregistre que le modèle a été téléchargé.
+        """
+
+        config = load_config()
+
+        config["model_installed"] = True
+
+        save_config(config)
 
 
-            return WhisperModel(
 
-                str(model_path),
-
-                device="auto",
-
-                compute_type="auto"
-
-            )
-
+    def load_model(self, model_name):
 
         print(
-            f"Téléchargement du modèle : {model_name}"
+            f"Chargement du modèle : {model_name}"
         )
 
 

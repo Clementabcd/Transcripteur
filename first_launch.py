@@ -1,4 +1,5 @@
 from PySide6.QtWidgets import (
+    QApplication,
     QDialog,
     QLabel,
     QPushButton,
@@ -39,23 +40,25 @@ class DownloadWorker(QThread):
 
             manager = ModelManager()
 
-            # Télécharge le modèle Whisper
+            # Télécharge / charge le modèle Whisper
             manager.load_model(
                 self.model_name
             )
+
+            # Marque le modèle comme installé
+            manager.mark_model_installed()
 
             # Télécharge FFmpeg si nécessaire
             get_ffmpeg_path()
 
             self.finished.emit()
 
+
         except Exception as e:
 
             self.error.emit(
                 str(e)
             )
-
-
 
 
 
@@ -257,38 +260,31 @@ class FirstLaunchDialog(QDialog):
 
 
 
-
-
     def complete(self):
 
-        self.loading_timer.stop()
+        from PySide6.QtWidgets import QMessageBox
+        import sys
 
+        QMessageBox.information(
+            self,
+            "Installation terminée",
+            """
+    EchoScript est prêt !
 
-        self.loading_label.setText(
-            "✓ Modèle installé"
+    Le modèle Whisper a été installé avec succès.
+
+    Veuillez fermer puis rouvrir l'application
+    pour terminer le premier lancement.
+            """
         )
 
 
-        self.info.setText(
-            "Configuration terminée."
-        )
+        # Ferme la fenêtre
+        self.accept()
 
 
-        self.button.setText(
-            "Commencer"
-        )
-
-
-        self.button.show()
-
-
-        self.button.clicked.disconnect()
-
-
-        self.button.clicked.connect(
-            self.accept
-        )
-
+        # Ferme complètement l'application
+        QApplication.quit()
 
 
 

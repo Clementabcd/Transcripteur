@@ -141,6 +141,30 @@ class TranscriptionEngine:
         input_file,
         output_file
     ):
+        
+        allowed_extensions = [
+            ".mp3",
+            ".wav",
+            ".m4a",
+            ".flac",
+            ".ogg",
+            ".aac",
+            ".mp4",
+            ".mov",
+            ".mkv"
+        ]
+
+
+        input_file = Path(input_file)
+
+
+        if input_file.suffix.lower() not in allowed_extensions:
+
+            raise ValueError(
+                "Format non pris en charge.\n"
+                "Veuillez sélectionner un fichier audio ou vidéo."
+            )
+
 
         log_info(
             "Normalisation audio"
@@ -172,37 +196,61 @@ class TranscriptionEngine:
         )
 
 
-
     def get_duration(
         self,
         file
     ):
 
+        ffmpeg = get_ffmpeg_path()
+
+
         result = subprocess.run(
             [
-                "ffprobe",
-                "-v",
-                "error",
+                ffmpeg,
 
-                "-show_entries",
-                "format=duration",
-
-                "-of",
-                "csv=p=0",
+                "-i",
 
                 str(file)
+
             ],
 
-            capture_output=True,
+            stdout=subprocess.PIPE,
 
-            text=True,
+            stderr=subprocess.PIPE,
 
-            check=True
+            text=True
         )
 
 
-        return int(
-            float(result.stdout)
+        output = result.stderr
+
+
+        import re
+
+
+        match = re.search(
+            r"Duration:\s(\d+):(\d+):(\d+\.\d+)",
+            output
+        )
+
+
+        if not match:
+            return 0
+
+
+        hours = int(match.group(1))
+
+        minutes = int(match.group(2))
+
+        seconds = float(match.group(3))
+
+
+        return (
+            hours * 3600
+            +
+            minutes * 60
+            +
+            seconds
         )
 
 
@@ -220,10 +268,12 @@ class TranscriptionEngine:
 
         output = folder / "chunk_%03d.wav"
 
+        ffmpeg = get_ffmpeg_path()
+
 
         subprocess.run(
             [
-                "ffmpeg",
+                ffmpeg,
 
                 "-i",
                 str(file),

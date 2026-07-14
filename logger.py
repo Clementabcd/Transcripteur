@@ -1,18 +1,22 @@
 import logging
-from pathlib import Path
+
+from utils import get_logs_dir
 
 
-Path("logs").mkdir(
-    exist_ok=True
+# Création du dossier logs utilisateur
+LOG_FILE = (
+    get_logs_dir()
+    /
+    "app.log"
 )
 
 
 logging.basicConfig(
-    filename="logs/app.log",
+    filename=str(LOG_FILE),
     level=logging.INFO,
-    format=
-    "%(asctime)s - %(levelname)s - %(message)s"
+    format="%(asctime)s - %(levelname)s - %(message)s"
 )
+
 
 
 def log_error(error):
@@ -21,6 +25,7 @@ def log_error(error):
         str(error),
         exc_info=True
     )
+
 
 
 def log_info(message):
